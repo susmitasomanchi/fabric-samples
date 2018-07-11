@@ -217,7 +217,8 @@ curl -s -X POST \
 **NOTE:** *chaincodeType* must be set to **node** when node.js chaincode is used
 
 ### Invoke request
-This ensures to get the sign from both the orgs *org1* & *org2*
+
+This invoke request is signed by peers from both orgs, *org1* & *org2*.
 ```
 curl -s -X POST \
   http://localhost:4000/channels/mychannel/chaincodes/mycc \
