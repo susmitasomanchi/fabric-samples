@@ -173,6 +173,34 @@ curl -s -X POST \
 
 ### Instantiate chaincode
 
+This is the endorsement policy defined during instantiation. 
+This policy can be fulfilled when members from both orgs sign the transaction proposal.
+
+```
+ {
+ 	identities: [{
+ 			role: {
+ 				name: 'member',
+ 				mspId: 'Org1MSP'
+ 			}
+ 		},
+ 		{
+ 			role: {
+ 				name: 'member',
+ 				mspId: 'Org2MSP'
+ 			}
+ 		}
+ 	],
+ 	policy: {
+ 		'2-of': [{
+ 			'signed-by': 0
+ 		}, {
+ 			'signed-by': 1
+ 		}]
+ 	}
+ }
+```
+
 ```
 curl -s -X POST \
   http://localhost:4000/channels/mychannel/chaincodes \
@@ -189,14 +217,14 @@ curl -s -X POST \
 **NOTE:** *chaincodeType* must be set to **node** when node.js chaincode is used
 
 ### Invoke request
-
+This ensures to get the sign from both the orgs *org1* & *org2*
 ```
 curl -s -X POST \
   http://localhost:4000/channels/mychannel/chaincodes/mycc \
   -H "authorization: Bearer <put JSON Web Token here>" \
   -H "content-type: application/json" \
   -d '{
-	"peers": ["peer0.org1.example.com","peer1.org1.example.com"],
+	"peers": ["peer0.org1.example.com","peer0.org2.example.com"],
 	"fcn":"move",
 	"args":["a","b","10"]
 }'
